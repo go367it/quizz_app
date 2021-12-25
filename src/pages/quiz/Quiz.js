@@ -330,14 +330,15 @@ const Quiz = () => {
   // function for showing the result
   const onResult = () =>{
 
-    const temp = questions
+    let temp = score
     for (let i = 0; i < answer.length; i++){
       if(questions[i].answer == answer[i]){
-        setScore(score+1)
+        temp = temp + 1
       }
     }
-
-    setShowQuiz(false)
+    console.log(temp)
+    setScore(temp)
+    setShowQuiz(false) 
   }
 
   return (
