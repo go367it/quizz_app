@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+const answer = [
+  '4','1','2','4','2','2','4','3','3','1'
+]
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([
@@ -245,7 +250,8 @@ const Quiz = () => {
   ]);
   const [currentQuestion, setCurrentQuestion] = useState(questions[0]); // for showing the current question
   const [showQuiz, setShowQuiz] = useState(true); // for showing quiz
-  const [showResult, setShowResult] = useState(false); // for showing result
+  const [score, setScore] = useState(0) // for showing result
+  // const [showResult, setShowResult] = useState(false); // for showing result
 
   // for clearing the selected option
   const clearSelection = (id) => {
@@ -255,7 +261,7 @@ const Quiz = () => {
       console.log(typeof questions[id].answer, '253')
 
       if(questions[id].answer == ""){
-        for (var i = 0; i < ele.length; i++) {
+        for (let i = 0; i < ele.length; i++) {
           ele[i].checked = false;
         }
       } 
@@ -320,6 +326,19 @@ const Quiz = () => {
 
     setQuestions(temp);
   };
+
+  // function for showing the result
+  const onResult = () =>{
+
+    const temp = questions
+    for (let i = 0; i < answer.length; i++){
+      if(questions[i].answer == answer[i]){
+        setScore(score+1)
+      }
+    }
+
+    setShowQuiz(false)
+  }
 
   return (
     <div className="p-4">
@@ -417,6 +436,7 @@ const Quiz = () => {
                     {currentQuestion.flagged ? "Unflag" : "Flag"}
                   </button>
                   <button
+                  onClick={()=>onResult()}
                     className="hover:bg-red-500 hover:text-white outline-none px-4 py-2 rounded-md
                   text-red-500 transform duration-300
                   "
@@ -429,7 +449,22 @@ const Quiz = () => {
           </div>
         </div>
       ) : (
-        ""
+        <div className="result">
+          <div className="flex justify-center">
+            <div>
+              <h1 className="text-gray-800 text-4xl text-center py-6">Score</h1>
+              <p className="text-gray-800 text-2xl text-center pb-6">
+                <strong>{score}</strong>/10
+              </p>
+              <Link to='/'>
+              <button className="px-4 py-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:ring-2 
+              focus:ring-offset-2 focus:ring-indigo-300 transform duration-300">
+                HomePage
+              </button>
+              </Link>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
